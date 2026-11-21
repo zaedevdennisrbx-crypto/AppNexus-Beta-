@@ -1,0 +1,182 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated AppNexus user profile stored privately per user.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID of the user." },
+        "displayName": { "type": "string", "description": "Display name from Google profile." },
+        "email": { "type": "string", "description": "Private user email address." },
+        "photoUrl": { "type": "string", "description": "Avatar image URL." },
+        "preferredCategory": { "type": "string", "description": "Preferred store category filter." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": ["userId", "displayName", "createdAt", "updatedAt"]
+    },
+    "LibraryEntry": {
+      "title": "LibraryEntry",
+      "description": "An app saved in the user's personal AppNexus library or wishlist.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase Auth UID." },
+        "appId": { "type": "string", "description": "Unique identifier of the app." },
+        "appName": { "type": "string", "description": "Display title of the app." },
+        "developer": { "type": "string", "description": "Developer or publisher name." },
+        "category": { "type": "string", "description": "Store category." },
+        "version": { "type": "string", "description": "Tracked version string." },
+        "sizeMb": { "type": "number", "description": "Approximate app package size in MB." },
+        "rating": { "type": "number", "description": "Average store rating from 0 to 5." },
+        "status": {
+          "type": "string",
+          "enum": ["WISHLIST", "INSTALLED", "UPDATE_AVAILABLE"],
+          "description": "Tracking status inside the user's AppNexus library."
+        },
+        "personalNote": { "type": "string", "description": "Optional user note about the app." },
+        "sourceUrl": { "type": "string", "description": "Optional official website or Play Store URL." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": ["userId", "appId", "appName", "developer", "category", "version", "sizeMb", "rating", "status", "createdAt", "updatedAt"]
+    },
+    "ScoutHistoryEntry": {
+      "title": "ScoutHistoryEntry",
+      "description": "Saved Gemini + Google Search discovery query and summary.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase Auth UID." },
+        "query": { "type": "string", "description": "Natural-language search prompt." },
+        "summary": { "type": "string", "description": "AI-generated discovery summary." },
+        "sourcesCount": { "type": "integer", "description": "Number of Google Search grounding sources." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." }
+      },
+      "required": ["userId", "query", "summary", "sourcesCount", "createdAt"]
+    },
+    "CommunityApp": {
+      "title": "CommunityApp",
+      "description": "A user-submitted Android app listing in the AppNexus Community catalog.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Submitter Firebase Auth UID." },
+        "creatorName": { "type": "string", "description": "Creator display name entered on submission." },
+        "authorName": { "type": "string", "description": "Submitter public account name." },
+        "appName": { "type": "string", "description": "App display title." },
+        "packageName": { "type": "string", "description": "Android package identifier." },
+        "developer": { "type": "string", "description": "Developer studio or author." },
+        "category": { "type": "string", "description": "App category." },
+        "version": { "type": "string", "description": "Version tag." },
+        "sizeMb": { "type": "number", "description": "Download size in MB." },
+        "tagline": { "type": "string", "description": "Short one-line summary." },
+        "description": { "type": "string", "description": "Detailed app overview." },
+        "websiteUrl": { "type": "string", "description": "Optional official homepage or Play Store URL." },
+        "visibility": { "type": "string", "enum": ["PUBLIC"], "description": "Catalog visibility scope." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": ["userId", "creatorName", "authorName", "appName", "packageName", "developer", "category", "version", "sizeMb", "tagline", "description", "visibility", "createdAt", "updatedAt"]
+    },
+    "AppReview": {
+      "title": "AppReview",
+      "description": "Authenticated user review for an app in AppNexus.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Reviewer Firebase Auth UID." },
+        "authorName": { "type": "string", "description": "Reviewer public display name." },
+        "appId": { "type": "string", "description": "Target app identifier." },
+        "appName": { "type": "string", "description": "Target app title." },
+        "rating": { "type": "integer", "description": "Star rating from 1 to 5." },
+        "comment": { "type": "string", "description": "Review text." },
+        "visibility": { "type": "string", "enum": ["PUBLIC"], "description": "Public visibility flag." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": ["userId", "authorName", "appId", "appName", "rating", "comment", "visibility", "createdAt", "updatedAt"]
+    },
+    "VerifiedCreator": {
+      "title": "VerifiedCreator",
+      "description": "Admin-verified creator badge record keyed by creator UID.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Verified creator Firebase Auth UID." },
+        "creatorName": { "type": "string", "description": "Verified creator display name." },
+        "badgeLabel": { "type": "string", "description": "Badge label shown on apps and reviews." },
+        "verifiedByUid": { "type": "string", "description": "Admin UID who granted verification." },
+        "visibility": { "type": "string", "enum": ["PUBLIC"], "description": "Public visibility scope." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on verification." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": ["userId", "creatorName", "badgeLabel", "verifiedByUid", "visibility", "createdAt", "updatedAt"]
+    },
+    "StoreAd": {
+      "title": "StoreAd",
+      "description": "Promotional ad submitted by a creator and moderated by an Admin.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Submitter Firebase Auth UID." },
+        "creatorName": { "type": "string", "description": "Creator or advertiser name." },
+        "title": { "type": "string", "description": "Sponsored ad headline." },
+        "tagline": { "type": "string", "description": "Sponsored ad body copy." },
+        "targetAppName": { "type": "string", "description": "Promoted app or product name." },
+        "targetUrl": { "type": "string", "description": "Destination website or store URL." },
+        "category": { "type": "string", "description": "App category." },
+        "ctaLabel": { "type": "string", "description": "Call-to-action button label." },
+        "status": {
+          "type": "string",
+          "enum": ["PENDING", "APPROVED", "REJECTED"],
+          "description": "Admin moderation status."
+        },
+        "rejectionReason": { "type": "string", "description": "Optional admin rejection feedback." },
+        "reviewedBy": { "type": "string", "description": "Admin UID who moderated the ad." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": ["userId", "creatorName", "title", "tagline", "targetAppName", "targetUrl", "category", "ctaLabel", "status", "createdAt", "updatedAt"]
+    },
+    "AdminRole": {
+      "title": "AdminRole",
+      "description": "Admin role assignment document keyed by admin UID.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Admin Firebase Auth UID." },
+        "grantedBy": { "type": "string", "description": "UID of admin who granted role." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp." }
+      },
+      "required": ["userId", "grantedBy", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user profile isolated to the authenticated user."
+    },
+    "/users/{userId}/library/{entryId}": {
+      "schema": { "$ref": "#/entities/LibraryEntry" },
+      "description": "User's personal app library, installed status, and wishlist."
+    },
+    "/users/{userId}/scout_history/{entryId}": {
+      "schema": { "$ref": "#/entities/ScoutHistoryEntry" },
+      "description": "User's saved Gemini + Google Search Scout discovery history."
+    },
+    "/community_apps/{appId}": {
+      "schema": { "$ref": "#/entities/CommunityApp" },
+      "description": "Shared community-submitted app listings readable by signed-in users and mutable only by the submitter or admin."
+    },
+    "/reviews/{reviewId}": {
+      "schema": { "$ref": "#/entities/AppReview" },
+      "description": "Public app reviews readable by signed-in users and mutable only by the author."
+    },
+    "/verified_creators/{creatorId}": {
+      "schema": { "$ref": "#/entities/VerifiedCreator" },
+      "description": "Admin-verified creator badge records publicly readable by signed-in users."
+    },
+    "/ads/{adId}": {
+      "schema": { "$ref": "#/entities/StoreAd" },
+      "description": "Promotional store ads submitted by creators and moderated by admins."
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminRole" },
+      "description": "Trusted admin role registry."
+    }
+  }
+}

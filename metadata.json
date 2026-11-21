@@ -1,0 +1,6 @@
+{
+  "name": "AppNexus",
+  "description": "An intelligent Android app store and discovery hub powered by Gemini AI, Google Search grounding, and Firebase.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
